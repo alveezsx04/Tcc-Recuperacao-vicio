@@ -1,0 +1,129 @@
+
+$cor-principal: #007bff;
+$cor-fundo: #f8f9fa;
+$cor-texto: #343a40;
+$cor-secundaria: #495057;
+$cor-borda: #e9ecef;
+
+.historico-container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  opacity: 0;
+  animation: fadeSlideUp 0.5s ease-out forwards;
+  animation-delay: 0.1s;
+
+  h1 {
+    color: $cor-texto;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+
+  .subtitulo {
+    color: $cor-secundaria !important;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 400;
+  }
+}
+
+.btn-voltar {
+  background: none;
+  border: none;
+  color: $cor-principal;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+
+.heatmap-wrapper {
+  overflow-x: auto;
+  padding: 1rem 0;
+}
+
+
+.react-calendar-heatmap {
+
+
+  .color-empty {
+    fill: $cor-borda;
+  }
+
+
+  .color-filled {
+    fill: $cor-principal;
+  }
+
+
+  rect {
+    rx: 2;
+    ry: 2;
+    transition: fill 0.3s ease;
+  }
+  
+
+  rect:hover {
+    stroke: #555;
+    stroke-width: 1px;
+  }
+
+
+  .react-calendar-heatmap-month-label {
+    font-size: 14px;
+    fill: $cor-secundaria;
+    font-weight: 500;
+  }
+
+ 
+  .react-calendar-heatmap-weekday-label {
+     font-size: 12px;
+     fill: $cor-secundaria;
+     font-family: 'Poppins', sans-serif;
+  }
+}
+
+
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  padding-right: 15px;
+  margin-top: 1rem;
+
+  .legend-text {
+    font-size: 0.9em;
+    color: $cor-secundaria;
+  }
+  
+  .legend-square {
+    width: 15px;
+    height: 15px;
+    border-radius: 2px;
+  }
+}
+
+
+
+.custom-tooltip {
+  background-color: $cor-texto !important;
+  color: #fff !important;
+  border-radius: 6px !important;
+  padding: 8px 12px !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500 !important;
+  font-size: 0.9em !important;
+  opacity: 1 !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}

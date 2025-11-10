@@ -1,0 +1,327 @@
+$cor-principal: #007bff;
+$cor-fundo: #f8f9fa;
+$cor-texto: #25292c;
+$cor-secundaria: #495057;
+$cor-borda: #e9ecef;
+$cor-motivacao-fundo: #e6f2ff;
+$cor-motivacao-texto: #004085;
+$cor-motivacao-strong: #00274d;
+
+
+.progresso-container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 30px auto;
+  text-align: center;
+  opacity: 0;
+  animation: fadeSlideUp 0.5s ease-out forwards;
+  animation-delay: 0.1s;
+
+  p {
+    color: $cor-texto;
+    font-weight: 400;
+  }
+  
+  h1, h2, h3, h4, strong {
+    color: $cor-texto;
+  }
+
+  .botoes-topo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  
+  .btn-home {
+    background: none;
+    border: 1px solid $cor-borda;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: $cor-principal;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      background-color: $cor-fundo;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+  }
+
+  .voltar {
+    display: block;
+    text-align: left;
+    margin-bottom: 20px;
+    color: $cor-principal;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  h1 {
+    font-size: 1.8em;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  h3 {
+    font-weight: 600;
+  }
+
+  .sub {
+    color: $cor-secundaria;
+    margin-bottom: 30px;
+    font-size: 1.05em;
+    font-weight: 400;
+  }
+
+  .dias-limpo {
+    background: $cor-principal;
+    color: white;
+    border-radius: 12px;
+    padding: 30px 0;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba($cor-principal, 0.2);
+
+    h2 {
+      font-size: 3em;
+      margin-bottom: 10px;
+      font-weight: 700;
+      color: white;
+    }
+    
+    p {
+      font-size: 1.2em;
+      font-weight: 600;
+      margin: 0;
+      color: white;
+    }
+    
+    small {
+      font-size: 0.95em;
+      font-weight: 400;
+      opacity: 0.9;
+      margin-top: 5px;
+      display: inline-block;
+    }
+  }
+
+  .painel {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 30px;
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid $cor-borda;
+      flex: 1;
+      min-width: 300px;
+
+      .progress {
+        background: $cor-borda;
+        border-radius: 10px;
+        overflow: hidden;
+        height: 12px;
+        margin: 10px 0;
+      }
+
+      .progress-bar {
+        background: $cor-principal;
+        height: 100%;
+        border-radius: 10px;
+        transition: width 0.8s ease-in-out;
+        position: relative;
+        overflow: hidden;
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.4) 50%,
+            rgba(255, 255, 255, 0) 100%
+          );
+          animation: shimmer 2.5s infinite linear;
+        }
+      }
+
+      .progress-text {
+        color: $cor-secundaria;
+        font-size: 1.05em;
+        font-weight: 500;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-top: 10px;
+
+        div {
+          background: $cor-fundo;
+          border-radius: 8px;
+          padding: 10px 0;
+          
+          span {
+            font-weight: 500;
+            color: $cor-secundaria;
+            font-size: 0.95em;
+          }
+        }
+
+        strong {
+          font-size: 1.4em;
+          display: block;
+          color: $cor-principal;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+
+  .conquistas {
+    .cards {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .conquista {
+      flex: 1;
+      min-width: 280px;
+      position: relative;
+      border: 1px solid $cor-borda;
+
+      &.bloqueado {
+        opacity: 0.7;
+      }
+      
+      h4 {
+        font-weight: 600;
+        color: $cor-texto;
+      }
+      
+      p {
+        font-size: 0.9em;
+        color: $cor-secundaria;
+        font-weight: 400;
+        line-height: 1.5;
+        padding: 0 0.5rem;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 8px;
+        font-size: 0.8em;
+        margin-top: 10px;
+        font-weight: 600;
+
+        &.verde { 
+          background: rgba($cor-principal, 0.15);
+          color: $cor-principal;
+        }
+
+        &.cinza {
+          background: $cor-borda;
+          color: $cor-secundaria;
+        }
+      }
+    }
+  }
+
+  .botoes {
+    margin: 30px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+
+    .btn {
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      font-size: 1rem;
+
+      &.azul {
+        background: $cor-principal;
+        color: white;
+        box-shadow: 0 4px 10px rgba($cor-principal, 0.2);
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 12px rgba($cor-principal, 0.3);
+        }
+      }
+
+      &.branco {
+        background: white;
+        border: 1px solid $cor-borda;
+        color: $cor-texto;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+        }
+      }
+    }
+  }
+
+  .motivacao {
+    background: $cor-motivacao-fundo;
+    color: $cor-motivacao-texto;
+    font-weight: 400;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 1.05em;
+    margin-bottom: 40px;
+    border-left: 5px solid $cor-motivacao-texto;
+    text-align: left;
+    
+    p {
+      color: $cor-motivacao-texto;
+      font-weight: 400;
+    }
+
+    strong {
+      font-weight: 700;
+      color: $cor-motivacao-strong;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .painel {
+      flex-direction: column;
+    }
+
+    .stats {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}
+
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
