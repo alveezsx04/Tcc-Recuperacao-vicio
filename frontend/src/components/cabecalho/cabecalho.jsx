@@ -24,7 +24,7 @@ function Cabecalho () {
                 <div className="header__container">
                     
                     <Link to="/" className="header__logo">
-                        <img src="/assets/images/logo.png" alt="Logo" />
+                        <img src="/assets/images/logo.png" />
                     </Link>
                     
                     <nav className="header__links-desktop">

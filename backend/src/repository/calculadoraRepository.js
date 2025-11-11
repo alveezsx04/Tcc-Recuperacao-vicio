@@ -39,11 +39,9 @@ export async function ListarImpactoPorUsuario(idUsuario) {
             data_inicio_vicio,
             gasto_total_calculado,
             calculado_em
-            -- CORREÇÃO: Tinha uma vírgula sobrando (",") aqui
         from impacto
         where usuario_id = ?
         order by calculado_em asc
-        -- CORREÇÃO: Estava "calculado em" (separado)
     `;
 
     const [registros] = await conection.query(comando, [idUsuario]);
