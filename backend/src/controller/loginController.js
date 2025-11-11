@@ -8,7 +8,7 @@ const endpoints = Router();
 endpoints.post('/cadastro', async (req, resp) => {
 
   console.log("===================================");
-    console.log("✅ REQUISIÇÃO /CADASTRO RECEBIDA!");
+    console.log(" REQUISIÇÃO /CADASTRO RECEBIDA!");
     console.log("DADOS VINDOS DO FRONTEND:", req.body);
     console.log("===================================");
   try {

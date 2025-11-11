@@ -1,17 +1,22 @@
-
 import axios from 'axios';
 
-
-const token = localStorage.getItem('user-token');
-
 const api = axios.create({
-
-    baseURL: 'http://localhost:5000' 
+  baseURL: 'http://localhost:5000'
 });
 
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('user-token');
 
-if (token) {
-    api.defaults.headers.common['x-access-token'] = token;
-}
+    if (token) {
+      config.headers['x-access-token'] = token;
+    }
+    
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export default api;

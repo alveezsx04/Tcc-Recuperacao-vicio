@@ -173,7 +173,6 @@ function Progresso() {
 
         <div className="botoes">
           <button className="btn azul" onClick={handleMarcarDia}>Marcar Dia de Hoje</button>
-          <button className="btn branco">Ver Conquistas Completas</button>
           <button className="btn branco" onClick={() => navigate('/historico')}>
             Histórico Detalhado
           </button>

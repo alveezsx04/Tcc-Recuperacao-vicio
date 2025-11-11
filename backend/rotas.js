@@ -1,8 +1,11 @@
-import usuarioController from './src/controller/usuarioController.js'
-import LoginController from './src/controller/loginController.js'
+import usuarioController from './src/controller/usuarioController.js';
+import loginController from './src/controller/loginController.js';
+import progressoController from './src/controller/progressoController.js';
+import calculadoraController from './src/controller/calculadoraController.js';
 
-
-export function adicionarRotas (api) {
-    api.use(usuarioController)
-    api.use(LoginController)
+export function adicionarRotas(api) {
+    api.use(loginController);
+    api.use(usuarioController);
+    api.use(progressoController);
+    api.use(calculadoraController);
 }

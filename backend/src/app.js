@@ -1,18 +1,18 @@
 import express from 'express';
 import cors from 'cors';
 import { adicionarRotas } from '../rotas.js';
-import loginController from './controller/loginController.js';
-import usuarioController from './controller/usuarioController.js';
-import progressoController from './controller/progressoController.js'
-
 
 const api = express();
 api.use(express.json());
-api.use(cors());
-api.use(loginController); 
-api.use(usuarioController);
-api.use(progressoController)
 
+api.use(cors({
+    origin: 'http://localhost:5173',
+    allowedHeaders: [                
+        'Content-Type', 
+        'Authorization', 
+        'x-access-token'
+    ]
+}));
 
 adicionarRotas(api);
 
