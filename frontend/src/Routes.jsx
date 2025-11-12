@@ -75,17 +75,6 @@ function RoutesApp() {
         }
       />
 
-      <Route
-      path="/prevencao"
-      element={
-        <ProtectedRoute>
-          <Prevencao />
-        </ProtectedRoute>
-      }
-
-      />
-        
-
     </Routes>
   );
 }

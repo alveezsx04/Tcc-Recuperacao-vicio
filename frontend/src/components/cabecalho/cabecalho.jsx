@@ -71,7 +71,6 @@ function Cabecalho () {
                 <Link to="/progresso" onClick={() => setIsMobileMenuOpen(false)}>Progresso</Link>
                 <Link to="/autoavaliacao" onClick={() => setIsMobileMenuOpen(false)}>Autoavaliação</Link>
                 <Link to="/calculadora" onClick={() => setIsMobileMenuOpen(false)}>Calculadora</Link>
-                <Link to="/biblioteca" onClick={() => setIsMobileMenuOpen(false)}>Biblioteca</Link>
             </div>
         </>
     )
