@@ -127,8 +127,7 @@ function Inicio () {
       <section className="section4-acoes">
         <div className="content">
           <h1>Suas Ferramentas</h1>
-          {/* <p className="subtitle"> <-- Remova esta, se estiver usando a nova classe */}
-          <p className="subtitle-section4"> {/* <-- Use esta classe que criamos no CSS */}
+          <p className="subtitle-section4">
             Recursos práticos e gratuitos para auxiliar na sua jornada de recuperação.
           </p>
         </div>
