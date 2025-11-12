@@ -29,6 +29,7 @@ create table questionario (
     pergunta3 varchar(200),
     pergunta4 varchar(200),
     pergunta5 varchar(200),
+    pontuacao_total int,
     criado_em timestamp default current_timestamp,
     foreign key (id_usuario) references usuario(id_usuario) on delete cascade
 );
@@ -41,6 +42,7 @@ create table impacto (
     horas_diarias int,
     data_inicio_vicio date,
     calculado_em timestamp default current_timestamp,
+	gasto_total_calculado decimal(10,2),
     foreign key (usuario_id) references usuario(id_usuario) on delete cascade
 );
 
@@ -98,11 +100,11 @@ create table metas_usuario (
   nome_meta varchar(255) not null,
   valor_meta decimal(10, 2) not null,
   ativo boolean default true,
-  criado_em timestamp default current_timestamp
+  criado_em timestamp default current_timestamp,
   foreign key (id_usuario) references usuario(id_usuario) on delete cascade
 );
 
-insert igonre into mensagem_motivacional (mensagem) values
+insert into mensagem_motivacional (mensagem) values
 ('Não deixe esse vício matar seus sonhos.'),
 ('Você é mais forte que o vício!'),
 ('Você merece uma vida livre de dependências.'),

@@ -1,11 +1,11 @@
 import React from "react";
-import { Youtube, Instagram, Globe, Home, ArrowLeft } from "lucide-react"; // Adicionado ArrowLeft
+import { Youtube, Instagram, Globe, Home, ArrowLeft } from "lucide-react";
 import "./biblioteca.scss";
-import "../../styles/global.scss"; // Mantido se for necessário para estilos globais
+import "../../styles/global.scss";
 import { useNavigate } from 'react-router-dom';
 
-// Cores para o novo esquema (verde e branco)
-const greenColor = "#4CAF50"; // Um tom de verde bonito
+
+const greenColor = "#4CAF50";
 const whiteColor = "#FFFFFF";
 
 function Biblioteca() {
@@ -93,11 +93,6 @@ function Biblioteca() {
     <div className="biblioteca-container">
 
       <header className="biblioteca-header">
-     
-        <button onClick={() => navigate(-1)} className="btn-voltar" aria-label="Voltar para a página anterior">
-          <ArrowLeft size={24} />
-        </button>
-
         <div className="titulo-secao">
            
             <div className="icone-central"> 
@@ -108,11 +103,6 @@ function Biblioteca() {
                 Conheça canais e perfis que abordam prevenção, tratamento e conscientização sobre vícios comportamentais e químicos.
             </p>
         </div>
-        
-        
-        <button onClick={() => navigate('/')} className="btn-home" aria-label="Ir para a página inicial">
-            <Home size={24} />
-        </button>
       </header>
 
       <div className="cards-container">

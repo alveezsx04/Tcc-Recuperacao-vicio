@@ -1,173 +1,185 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./autoavaliacao.scss";
-import "../../styles/global.scss";
+import React, { useState, useEffect, useMemo } from 'react';
+import api from '/src/services/api'; 
+import { Line } from 'react-chartjs-2'; 
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { useNavigate } from 'react-router-dom';
 
-const questions = [
-  {
-    id: 1,
-    question: "Com que frequência você sente que perdeu o controle sobre seu comportamento viciante?",
-    options: ["Nunca", "Raramente", "Às vezes", "Frequentemente", "Sempre"],
-  },
-  {
-    id: 2,
-    question: "Você já tentou parar ou reduzir esse comportamento sem sucesso?",
-    options: [
-      "Nunca tentei parar",
-      "Tentei uma vez",
-      "Tentei algumas vezes",
-      "Tentei muitas vezes",
-      "Tento constantemente",
-    ],
-  },
-  {
-    id: 3,
-    question: "Esse comportamento interfere nas suas relações pessoais ou profissionais?",
-    options: [
-      "Não interfere",
-      "Interfere pouco",
-      "Interfere moderadamente",
-      "Interfere bastante",
-      "Interfere severamente",
-    ],
-  },
-  {
-    id: 4,
-    question: "Você sente ansiedade ou irritabilidade quando não pode praticar esse comportamento?",
-    options: ["Nunca", "Raramente", "Às vezes", "Frequentemente", "Sempre"],
-  },
-  {
-    id: 5,
-    question: "Você gasta mais tempo ou dinheiro com esse comportamento do que gostaria?",
-    options: ["Nunca", "Raramente", "Às vezes", "Frequentemente", "Sempre"],
-  },
-];
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-function Autoavaliacao() {
-  const navigate = useNavigate();
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState({});
-  const [finished, setFinished] = useState(false);
+import './autoavaliacao.scss'; 
 
-  const handleAnswer = (value) => {
-    setAnswers({ ...answers, [currentQuestion]: value });
-  };
+function HistoricoGrafico({ historico }) {
+  const data = useMemo(() => {
+    const labels = historico.map(item =>
+      new Date(item.criado_em).toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+      })
+    );
+    const dataPoints = historico.map(item => item.pontuacao_total);
 
-  const nextQuestion = () => {
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-    } else {
-      setFinished(true);
+    return {
+      labels,
+      datasets: [
+        {
+          label: 'Evolução da Pontuação',
+          data: dataPoints,
+          fill: true,
+          backgroundColor: 'rgba(0, 123, 255, 0.1)',
+          borderColor: 'rgba(0, 123, 255, 1)',
+          tension: 0.1,
+        },
+      ],
+    };
+  }, [historico]);
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top' },
+      title: { display: true, text: 'Sua Evolução ao Longo do Tempo' },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 25, 
+      },
+    },
+    animation: {
+      duration: 1000,
+      easing: 'easeInOutQuart',
     }
   };
 
-  const prevQuestion = () => {
-    if (currentQuestion > 0) setCurrentQuestion(currentQuestion - 1);
+  return <Line options={options} data={data} key={historico.length} />;
+}
+
+
+function Autoavaliacao() {
+  const [respostas, setRespostas] = useState(['1', '1', '1', '1', '1']);
+  const [historico, setHistorico] = useState([]);
+  
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+
+  const navigate = useNavigate(); 
+
+  useEffect(() => {
+    async function carregarHistorico() {
+      try {
+        const resp = await api.get('/autoavaliacao/historico');
+        setHistorico(resp.data);
+      } catch (err) {
+        console.error("Erro ao carregar histórico:", err);
+        setError("Não foi possível carregar seu histórico de evolução.");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    carregarHistorico();
+  }, []);
+
+  const handleRespostaChange = (index, valor) => {
+    setError(null);
+    setSuccess(null);
+    
+    const novasRespostas = [...respostas];
+    novasRespostas[index] = valor;
+    setRespostas(novasRespostas);
   };
 
-  const restart = () => {
-    setAnswers({});
-    setCurrentQuestion(0);
-    setFinished(false);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setSuccess(null);
+
+    const pontuacaoTotal = respostas.reduce((acc, valor) => acc + Number(valor), 0);
+    
+    try {
+      const resp = await api.post('/autoavaliacao', {
+        respostas,
+        pontuacaoTotal
+      });
+
+      setHistorico([...historico, resp.data]);
+      setSuccess('Avaliação salva com sucesso! Veja sua evolução no gráfico.');
+      
+    } catch (err) {
+      console.error("Erro ao salvar avaliação:", err);
+      setError("Não foi possível salvar sua avaliação. Tente novamente.");
+    }
   };
 
+  const perguntas = [
+    "Como você avalia seu controle sobre seus impulsos hoje?",
+    "Como você se sente em relação ao seu bem-estar mental?",
+    "Você conseguiu focar em seus hobbies e trabalho hoje?",
+    "Quão otimista você está sobre sua recuperação?",
+    "Você se sentiu conectado com amigos ou família hoje?"
+  ];
 
-  const calcScore = () => {
-    return Object.values(answers).reduce((acc, index) => {
-
-        return acc + (index + 1); 
-    }, 0);
+  if (isLoading) {
+    return <div className="autoavaliacao-container">Carregando...</div>;
   }
-
-  const getResultMessage = () => {
-    const score = calcScore();
-    if (score <= 7) return "Você demonstra baixo nível de comportamento viciante.";
-    if (score <= 13) return "Atenção: há sinais leves de dependência.";
-    if (score <= 19) return "Cuidado: há indícios moderados de vício.";
-    return "Alerta! Alto risco de dependência. Procure ajuda profissional.";
-  };
-
-  const progress = ((currentQuestion + 1) / questions.length) * 100;
-
-  if (finished) {
-    return (
-      <div className="autoavaliacao-container">
-        <div className="card-pergunta resultado">
-            <h1>Resultado da Autoavaliação</h1>
-            <p className="resultado-texto">{getResultMessage()}</p>
-            <p className="resultado-pontuacao">Sua pontuação: {calcScore()} de 25</p>
-            
-            <div className="botoes">
-                <button className="btn branco" onClick={restart}>
-                    Refazer Teste
-                </button>
-                <button className="btn azul" onClick={() => navigate("/")}>
-                    Voltar ao Início
-                </button>
-            </div>
-        </div>
-      </div>
-    );
-  }
-
-  const current = questions[currentQuestion];
 
   return (
     <div className="autoavaliacao-container">
-      <div className="voltar" onClick={() => navigate("/")}>
-        ← Voltar ao início
-      </div>
-
-      <h1>Teste de Autoavaliação</h1>
-      <p className="descricao">
-        Responda honestamente às perguntas para uma avaliação inicial do seu comportamento
-      </p>
-      <div className="progresso">
-        <div className="texto">
-          <span>Pergunta {currentQuestion + 1} de {questions.length}</span>
-          <span>{Math.round(progress)}%</span>
-        </div>
-        <div className="barra">
-          <div
-            className="preenchido"
-            style={{ width: `${progress}%` }}
-          ></div>
-        </div>
-      </div>
-
-      <div className="card-pergunta">
-        <h3>{current.question}</h3>
-        <div className="opcoes">
-          {current.options.map((opt, index) => (
-            <label key={index} className="opcao">
-              <input
-                type="radio"
-                name={`q${currentQuestion}`}
-                checked={answers[currentQuestion] === index}
-                onChange={() => handleAnswer(index)}
-              />
-              <span>{opt}</span>
-            </label>
+    
+      <div className="avaliacao-form-card">
+        <h2>Autoavaliação Diária</h2>
+        <p>Seja honesto. Como você se sentiu hoje? (1 = Muito Mal, 5 = Muito Bem)</p>
+        
+        <form onSubmit={handleSubmit}>
+          {perguntas.map((pergunta, index) => (
+            <div className="form-group-avaliacao" key={index}>
+              <label>{index + 1}. {pergunta}</label>
+              <select 
+                value={respostas[index]}
+                onChange={(e) => handleRespostaChange(index, e.target.value)}
+              >
+                <option value="1">1 (Muito Mal)</option>
+                <option value="2">2</option>
+                <option value="3">3 (Normal)</option>
+                <option value="4">4</option>
+                <option value="5">5 (Muito Bem)</option>
+              </select>
+            </div>
           ))}
-        </div>
+
+          {error && <p className="msg-erro">{error}</p>}
+          {success && <p className="msg-sucesso">{success}</p>}
+
+          <button type="submit" className="btn-salvar-avaliacao">
+            Salvar Avaliação de Hoje
+          </button>
+        </form>
       </div>
 
-
-      <div className="botoes">
-        <button
-          className="btn branco"
-          onClick={prevQuestion}
-          disabled={currentQuestion === 0}
-        >
-          Anterior
-        </button>
-        <button
-          className="btn azul"
-          onClick={nextQuestion}
-          disabled={answers[currentQuestion] === undefined}
-        >
-          {currentQuestion === questions.length - 1 ? "Finalizar" : "Próxima"}
-        </button>
+      <div className="avaliacao-historico-card">
+        <h3>Sua Evolução</h3>
+        {historico.length > 0 ? (
+          <HistoricoGrafico historico={historico} />
+        ) : (
+          <p>Você ainda não tem avaliações. Seu gráfico de evolução aparecerá aqui.</p>
+        )}
       </div>
     </div>
   );

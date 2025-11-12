@@ -12,6 +12,8 @@ import {
   Legend,
   Filler,
 } from 'chart.js';
+import { useNavigate } from 'react-router-dom';
+import { Home } from 'lucide-react';
 
 import './calculadora.scss';
 
@@ -73,7 +75,6 @@ function GraficoHistorico({ historico }) {
     animation: {
       duration: 1000,
       easing: 'easeInOutQuart',
-      delay: 900,
     },
   };
 
@@ -97,6 +98,7 @@ function GerenciadorMetas({ metas, onNovaMeta }) {
 
   return (
     <div className="metas-manager">
+      
       <h4>Suas Metas e Sonhos</h4>
       <p>Cadastre aqui o que você gostaria de fazer com o dinheiro.</p>
       <ul className="metas-list">
@@ -139,6 +141,9 @@ function Calculadora() {
   const [resultado, setResultado] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showChart, setShowChart] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function carregarDados() {
@@ -160,6 +165,9 @@ function Calculadora() {
         setError("Não foi possível carregar os dados. Tente novamente mais tarde.");
       } finally {
         setIsLoading(false);
+        setTimeout(() => {
+          setShowChart(true);
+        }, 800); 
       }
     }
     carregarDados();
@@ -241,6 +249,10 @@ function Calculadora() {
 
   return (
     <div className="calculadora-wrapper">
+      <button onClick={() => navigate('/')} className="btn-home-global" aria-label="Início">
+        <Home size={24} color="#ffffff" />
+      </button>
+
       <div className="calculadora-main">
         <div className="calculadora-form">
           <h2>Calculadora de Impacto</h2>
@@ -288,10 +300,15 @@ function Calculadora() {
 
       <div className="calculadora-historico">
         <h3>Seu Histórico de Gastos</h3>
-        {historico.length > 0 ? (
-          <GraficoHistorico historico={historico} />
-        ) : (
-          <p>Nenhum cálculo salvo ainda. Seu gráfico aparecerá aqui.</p>
+        
+        {showChart && (
+          <>
+            {historico.length > 0 ? (
+              <GraficoHistorico historico={historico} />
+            ) : (
+              <p>Nenhum cálculo salvo ainda. Seu gráfico aparecerá aqui.</p>
+            )}
+          </>
         )}
       </div>
 

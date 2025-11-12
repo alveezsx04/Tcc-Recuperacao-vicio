@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import './progresso.scss';
 import api from '../../services/api';
 import "../../styles/global.scss";
-import { Home } from 'lucide-react';
 
 function Progresso() {
   
@@ -17,7 +16,6 @@ function Progresso() {
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState('');
   const [sucesso, setSucesso] = useState('');
-
 
   async function carregarProgresso() {
     try {
@@ -98,14 +96,8 @@ function Progresso() {
 
   return (
     <>
-      <main className="progresso-container">
+      <main className="progresso-container" style={{ position: 'relative' }}>
         
-        <div className="botoes-topo">
-          <button onClick={() => navigate('/')} className="btn-home">
-            <Home size={20} />
-          </button>
-        </div>
-
         <h1>Seu Progresso na Recuperação</h1>
         <p className="sub">
           Acompanhe sua jornada, celebre suas conquistas e mantenha-se motivado no caminho da recuperação.
@@ -122,7 +114,6 @@ function Progresso() {
           </small>
         </section>
         
-        {/* ... (o resto do seu JSX continua igual) ... */}
         <section className="painel">
           <div className="proximo-marco card">
             <h3>Próximo Marco</h3>
