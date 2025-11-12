@@ -8,7 +8,6 @@ import Autoavaliacao from "./pages/autoavaliacao/autoavaliacao";
 import Biblioteca from "./pages/biblioteca/biblioteca";
 import Cadastro from "./pages/cadastro/cadastro";
 import Progresso from "./pages/progresso/progresso.jsx";
-import Prevencao from "./pages/prevencao/prevencao.jsx";
 
 
 import ProtectedRoute from "./utils/ProtectedRoute.jsx"; 
